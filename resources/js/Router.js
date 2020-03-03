@@ -22,4 +22,5 @@ const Main = () => (
         <Route component={NotFound} />
     </Switch>
 );
+
 export default Main;

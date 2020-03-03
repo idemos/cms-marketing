@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\User;
 
 class AuthController extends Controller
 {
@@ -57,25 +58,30 @@ class AuthController extends Controller
         $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
-            'remember_me' => 'boolean'
         ]);
 
         $credentials = request(['email', 'password']);
         $credentials['active'] = 1;
-        $credentials['deleted_at'] = null;
+        //$credentials['deleted_at'] = null;
 
-        if (!Auth::attempt($credentials))
+        if (!Auth::attempt($credentials)){
             return response()->json([
                 'message' => 'Unauthorized Access, please confirm credentials or verify your email'
             ], 401);
+        }
 
-        $user = $request->user();
+        //$user = $request->user();
+        $user = auth()->user();
+        //die($user);
 
         $tokenResult = $user->createToken('Personal Access Token');
+        //die($tokenResult);
         $token = $tokenResult->token;
-        if ($request->remember_me)
-            $token->expires_at = Carbon::now()->addWeeks(1);
+        //if ($request->remember_me)
+        //    $token->expires_at = Carbon::now()->addWeeks(1);
+
         $token->save();
+        
         return response()->json([
             'success' => true,
             'id' => $user->id,

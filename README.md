@@ -25,3 +25,13 @@ php artisan migrate
 ```
 php artisan passport:install
 ```
+
+6. Create Personal Passport
+```
+php artisan passport:client --personal
+```
+
+7. Run npm for static files changed
+```
+npm run watch
+```
