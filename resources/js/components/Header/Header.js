@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {Link, withRouter} from 'react-router-dom';
+
 class Header extends Component {
   // 1.1
   constructor(props) {
@@ -30,10 +31,8 @@ class Header extends Component {
       <nav className="navbar">
         <ul>
           <li><Link to="/">Index</Link></li>
-          {this.state.isLoggedIn ? 
-           <li className="has-sub"><Link to="/dashboard">Dashboard</Link></li> : ""}
-          {!this.state.isLoggedIn ?
-            <li><Link to="/login">Login</Link> | <Link to="/register">Register</Link></li> : ""}
+          {this.state.isLoggedIn ? <li className="has-sub"><Link to="/dashboard">Dashboard</Link></li> : ""}
+          {!this.state.isLoggedIn ? <li><Link to="/login">Login</Link> | <Link to="/register">Register</Link></li> : ""}
         </ul>
       </nav>
     )

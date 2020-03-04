@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import RegisterContainer from './RegisterContainer';
+
 class Register extends Component {
   constructor(props) {
     super(props);
@@ -15,4 +16,5 @@ class Register extends Component {
     )
   }
 }
+
 export default Register
