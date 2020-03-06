@@ -1,10 +1,12 @@
 import React from "react";
 import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
+
 import Home from "./components/Home/Home";
 
 import Login from "./views/Login/Login";
 import Register from "./views/Register/Register";
 import UserList from "./components/User/List";
+import UserCreate from "./components/User/Create";
 import NotFound from "./views/NotFound/NotFound";
 
 // User is LoggedIn
@@ -18,12 +20,14 @@ const Main = () => (
         {/*User will LogIn*/}
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
+        <Route path="/user" component={UserList} />
+        <Route path="/useredit/:id" component={UserCreate} />
         {/* User is LoggedIn*/}
         <PrivateRoute path="/dashboard" component={Dashboard} />
-        <PrivateRoute path="/user" component={UserList} />
         {/*Page Not Found*/}
         <Route component={NotFound} />
     </Switch>
 );
+
 
 export default Main;

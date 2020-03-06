@@ -14,9 +14,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        $user = User::paginate();
-        //return $user;
-        return response()->json('User:'.$user->id.' Added Successfully.');
+        $user = User::all();
+        // return response()->json('User: Successfully.');
+        return $user;
     }
 
     /**
@@ -40,10 +40,10 @@ class UserController extends Controller
         $request->validate([
             'email' => 'email|unique:users',
             'phone' => 'number'
-        ])
+        ]);
 
-        $request_field = $request->except(['csrt','method']);
-        $user = User::find($id)->create($request_field);
+        //request()->except(['csrt','method']);
+        $user = User::find($id)->create(request()->except(['csrt','method']));
         return $user;
     }
 

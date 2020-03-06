@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import MyGlobleSetting from '../MyGlobleSetting';
 
 class ListUser extends Component {
@@ -15,8 +15,9 @@ class ListUser extends Component {
   
     componentDidMount(){
        
-        axios.get(MyGlobleSetting.url + '/api/users')
+        axios.get(MyGlobleSetting.url + '/api/auth/user')
         .then(response => {
+            //console.dir(response.data);
             this.setState({ users: response.data });
         })
         .catch(function (error) {
@@ -33,26 +34,31 @@ class ListUser extends Component {
   
     tabRow(){
         if(this.state.users instanceof Array){
-            return this.state.users.map(function(object, i){
-                return (<tr>
+            return this.state.users.map(function(obj, i){
+                //console.dir(obj);
+                
+                return (<tr key={obj.id}>
                         <td>{obj.id}</td>
                         <td>{obj.firstname}</td>
                         <td>{obj.lastname}</td>
                         <td>{obj.phone}</td>
                         <td>{obj.email}</td>
                         <td>
-                            <form onSubmit={this.handleSubmit}>
-                                <Link to={"edit/"+this.props.obj.id} className="btn btn-primary">Edit</Link>
-                                <input type="submit" value="Delete" className="btn btn-danger"/>
-                            </form>
+                            <Link to={"useredit/" + obj.id} className="btn btn-primary">Edit</Link>
                         </td>
                         </tr>);
+                
             })
         }
      }
 
 
     render(){
+
+
+
+
+
         return (
         <div>
             <h1>Utenti</h1>
