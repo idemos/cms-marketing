@@ -8,38 +8,44 @@ class UserCreate extends Component {
         super(props);
         
         this.state = {
+            user: '',
             firstname: '', 
             lastname: '',
             email: '',
             phone: '',
         };
-
+/*
         this.handleChangeFirstname = this.handleChangeFirstname.bind(this);
         this.handleChangeLastname = this.handleChangeLastname.bind(this);
         this.handleChangeEmail = this.handleChangeEmail.bind(this);
         this.handleChangePhone = this.handleChangePhone.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+*/
     }
 
-    componentDidMount(){
+    async componentDidMount(){
 
-        const { id } = this.props.match.params;
-
-        console.log(this.props.match.params);
+        const { id } = this.props.match.params; // or this.props.params.id
+        //console.log(this.props.match.params);
 
         var param = '/user';
         if(typeof id !== "undefined"){
             param = '/user/' + id + '/edit';
         }
        
-        axios.get(MyGlobleSetting.url + '/api/auth' + param)
+        //this.setState({ user: await axios.get(MyGlobleSetting.url + '/api/auth' + param).data});
+
+        const response = await axios.get(MyGlobleSetting.url + '/api/auth' + param);
+        this.setState({ user: response.data });
+        /*
         .then(response => {
-            console.dir(response.data);
+            //console.dir(response.data);
             this.setState({ user: response.data });
         })
         .catch(function (error) {
             console.log(error);
         })
+        */
     }
 
     handleChangeFirstname(e){
@@ -88,6 +94,8 @@ class UserCreate extends Component {
 
         const { user } =  this.state;
 
+        console.log('aaaa',this.state.user[0].firstname);
+
         return (
         <div>
             <h1>Create User</h1>
@@ -96,7 +104,7 @@ class UserCreate extends Component {
                     <div className="col-md-6">
                       <div className="form-group">
                         <label>Nome:</label>
-                        <input value={user.firstname} type="text" name="firstname" className="form-control" onChange={this.handleChangeFirstname} />
+                        <input type="text" name="firstname" className="form-control" onChange={this.handleChangeFirstname} />
                       </div>
                     </div>
                 </div>
@@ -104,7 +112,7 @@ class UserCreate extends Component {
                     <div className="col-md-6">
                         <div className="form-group">
                           <label>Cognome:</label>
-                          <input value={user.lastname} type="text" name="lastname" className="form-control" onChange={this.handleChangeLastname} />
+                          <input type="text" name="lastname" className="form-control" onChange={this.handleChangeLastname} />
                         </div>
                     </div>
                 </div>
@@ -112,7 +120,7 @@ class UserCreate extends Component {
                     <div className="col-md-6">
                         <div className="form-group">
                           <label>Email:</label>
-                          <inpu value={user.email} type="text" name="email" className="form-control" onChange={this.handleChangeEmail} />
+                          <input type="text" name="email" className="form-control" onChange={this.handleChangeEmail} />
                         </div>
                     </div>
                 </div>
