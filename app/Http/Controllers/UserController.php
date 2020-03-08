@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
@@ -14,7 +15,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $user = User::all();
+        //$user = User::all();
+        $user = User::orderBy('id','desc')->get();
         // return response()->json('User: Successfully.');
         return $user;
     }
@@ -43,8 +45,15 @@ class UserController extends Controller
         ]);
 
         //request()->except(['csrt','method']);
-        $user = User::find($id)->create(request()->except(['csrt','method']));
-        return $user;
+        $user = User::create(request()->except(['csrt','method']));
+
+        return Response::json(array(
+            'error' => false,
+            'userId' => $user->id),
+            200
+        );
+
+        //return $user;
     }
 
     /**
@@ -80,9 +89,17 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $request_field = $request->except(['csrt','method']);
-        $user = User::find($id)->update($request_field);
+        //dd($request_field);
 
-        return $user;
+        $user = User::find($id)->update($request_field);
+        //dd($user);
+        
+        return response()->json(array(
+            'success' => $user,
+            'userId' => $id),
+            200
+        );
+        // return $user;
     }
 
     /**
