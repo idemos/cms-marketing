@@ -21,17 +21,22 @@ npm install
 php artisan migrate
 ```
 
-5. Install Passport
+5. Install Axios
+```
+npm i axios
+```
+
+6. Install Passport
 ```
 php artisan passport:install
 ```
 
-6. Create Personal Passport
+7. Create Personal Passport
 ```
 php artisan passport:client --personal
 ```
 
-7. Run npm for static files changed
+8. Run npm for static files changed
 ```
 npm run watch
 ```

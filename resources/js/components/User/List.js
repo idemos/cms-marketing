@@ -5,17 +5,27 @@ import { Link } from 'react-router-dom';
 import MyGlobleSetting from '../MyGlobleSetting';
 
 class ListUser extends Component {
-
+/*
     constructor(props) {
        super(props);
-       this.state = {value: '', users: ''};
        
        this.handleSubmit = this.handleSubmit.bind(this);
     }
-  
-    componentDidMount(){
+*/
+    state = {value: '', users: ''};
+
+    componentWillMount(){
+        console.log('componentWillMount');
+    }
+
+    async componentDidMount(){
        
-        axios.get(MyGlobleSetting.url + '/api/auth/user')
+        this.fetchData();
+    }
+
+    async fetchData(){
+
+        await axios.get(MyGlobleSetting.url + '/api/auth/user')
         .then(response => {
             //console.dir(response.data);
             this.setState({ users: response.data });
@@ -23,18 +33,30 @@ class ListUser extends Component {
         .catch(function (error) {
             console.log(error);
         })
+
     }
 
-    handleSubmit(event) {
-        event.preventDefault();
-        let uri = MyGlobleSetting.url + `/api/users/${this.props.obj.id}`;
-        axios.delete(uri);
-        browserHistory.push('/display-item');
-    }
-  
+    async handleClickDelete(e,obj){
+        e.preventDefault();
+        //console.log(obj.id);
+        var that = this;
+
+        await axios.delete(MyGlobleSetting.url + `/api/auth/user/${obj.id}`)
+        .then(response => {
+            //this.setState({ users: response.data });
+            //this.props.history.push('/user');
+            that.fetchData();
+        })
+        .catch(function (error) {
+            console.error(error);
+            this.setState({ error: error.message });
+        })
+
+    }  
+
     tabRow(){
         if(this.state.users instanceof Array){
-            return this.state.users.map(function(obj, i){
+            return this.state.users.map((obj, i) => {
                 //console.dir(obj);
                 
                 return (<tr key={obj.id}>
@@ -44,10 +66,12 @@ class ListUser extends Component {
                         <td>{obj.phone}</td>
                         <td>{obj.email}</td>
                         <td>
-                            <Link to={"useredit/" + obj.id} className="btn btn-primary">Edit</Link>
+                            <Link to={"useredit/" + obj.id} className="btn btn-primary btn-edit"> Edit </Link>&nbsp;
+                            <button type="button" className="btn btn-danger btn-delete" 
+                            onClick={(e) => {if(window.confirm('Are you sure you wish to delete this item?')) this.handleClickDelete(e, obj)}} > Delete </button>
                         </td>
-                        </tr>);
-                
+                        </tr>
+                );
             })
         }
      }
@@ -55,20 +79,19 @@ class ListUser extends Component {
 
     render(){
 
-
-
-
+        const { error } = this.state;
 
         return (
         <div>
-            <h1>Utenti</h1>
+            
+            <br />  
+            { error ? <h5 className="alert alert-danger">{error}</h5> : '' }
             <div className="row">
-                <div className="col-md-10"></div>
+                <div className="col-md-10"><h1>Utenti</h1></div>
                 <div className="col-md-2">
-                    <Link to="/add-item">Create User</Link>
+                    <Link to="/useredit" className="btn btn-warning">Create User</Link>
                 </div>
             </div>
-            <br />
             <table className="table table-hover">
                 <thead>
                 <tr>

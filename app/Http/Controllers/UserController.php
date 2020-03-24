@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserStoreRequest;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -37,21 +38,12 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    //public function store(Request $request)
+    public function store(UserStoreRequest $request)
     {
-        $request->validate([
-            'email' => 'email|unique:users',
-            'phone' => 'number'
-        ]);
-
         //request()->except(['csrt','method']);
-        $user = User::create(request()->except(['csrt','method']));
-
-        return Response::json(array(
-            'error' => false,
-            'userId' => $user->id),
-            200
-        );
+        $user = User::create(request()->all());
+        return response()->json($user, 201);
 
         //return $user;
     }
@@ -88,10 +80,10 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request_field = $request->except(['csrt','method']);
+        //$request_field = $request->except(['csrt','method']);
         //dd($request_field);
 
-        $user = User::find($id)->update($request_field);
+        $user = User::find($id)->update(request()->all());
         //dd($user);
         
         return response()->json(array(

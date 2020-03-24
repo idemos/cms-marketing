@@ -16,17 +16,13 @@ class App extends React.Component {
 
     render() {
         return(
-        <Switch>
-            {/*User might LogIn*/}
+        <BrowserRouter>
             <Route exact path="/" component={Home} />
-            {/*User will LogIn*/}
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
             <Route path="/user" component={UserList} />
-            <Route path="/useredit/:id" component={UserCreate} />
-            {/* User is LoggedIn*/}
-            {/*Page Not Found*/}
-        </Switch>
+            <Route path="/useredit/:id?" component={UserCreate} />
+        </BrowserRouter>
         )
     }
 }
