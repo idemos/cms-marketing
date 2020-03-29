@@ -40,3 +40,12 @@ php artisan passport:client --personal
 ```
 npm run watch
 ```
+
+9. Install secure-web-storage
+```
+npm install secure-web-storage
+```
+or
+```
+npm install secure-ls
+```

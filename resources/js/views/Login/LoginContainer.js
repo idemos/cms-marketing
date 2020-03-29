@@ -2,27 +2,11 @@ import React, {Component} from 'react';
 import {Link, Redirect, withRouter} from 'react-router-dom';
 import FlashMessage from 'react-flash-message';
 
-class LoginContainer extends Component {
-/*
-  constructor(props) {
-    
-    super(props);
-    this.state = {
-      isLoggedIn: false,
-      error: '',
-      formSubmitting: false,
-      user: {
-        email: '',
-        password: '',
-      },
-      redirect: props.redirect,
-    };
+import MyGlobleSetting from '../../components/MyGlobleSetting';
+import MyStorage from '../../components/MyStorage';
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleEmail = this.handleEmail.bind(this);
-    this.handlePassword = this.handlePassword.bind(this);
-  }
-*/
+class LoginContainer extends Component {
+
   state = {
       email: '',
       password: '',
@@ -36,9 +20,16 @@ class LoginContainer extends Component {
 
   componentWillMount() {
   
-    let state = localStorage["appState"];
+    /*
+    let state = MyStorage[MyGlobleSetting.ls_name];
     if (state) {
       let AppState = JSON.parse(state);
+      this.setState({isLoggedIn: AppState.isLoggedIn, user: AppState});
+    }
+    */
+
+    let AppState = MyStorage.get(MyGlobleSetting.ls_name);
+    if (AppState) {
       this.setState({isLoggedIn: AppState.isLoggedIn, user: AppState});
     }
   }
@@ -78,7 +69,9 @@ class LoginContainer extends Component {
            user: userData
         };
          
-        localStorage["appState"] = JSON.stringify(appState);
+        //localStorage["appState"] = JSON.stringify(appState);
+        MyStorage.set[MyGlobleSetting.ls_name, appState];
+
          
         this.setState({
             isLoggedIn: appState.isLoggedIn,
@@ -86,7 +79,8 @@ class LoginContainer extends Component {
             error: ''
         });
       
-        location.reload();
+        //document.location.reload();
+        that.props.history.push('/user');
       
       } else {
         alert(`Our System Failed To Register Your Account!`);
@@ -145,6 +139,10 @@ handleChange = (e) => {
 render() {
   //const { state = {} } = this.state.redirect;
   const { error } = this.state;
+
+  if (this.state.isLoggedIn) {
+    return <Redirect to="/users" />;
+  }
 
   return (
     <div className="container">

@@ -1,21 +1,36 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-import { Link } from 'react-router-dom';
+import MyStorage from '../MyStorage';
 import MyGlobleSetting from '../MyGlobleSetting';
 
 class ListUser extends Component {
 /*
     constructor(props) {
-       super(props);
-       
-       this.handleSubmit = this.handleSubmit.bind(this);
+        super(props);
+        this.checkUserLogged();
     }
 */
     state = {value: '', users: ''};
 
     componentWillMount(){
         console.log('componentWillMount');
+    }
+
+    checkUserLogged() {
+  
+        let ls = MyGlobleSetting.ls_name;
+        let AppState = MyStorage.get(ls);
+        
+        if (AppState) {
+            // let AppState = JSON.parse(state);
+            if(AppState.isLoggedIn === true){
+                this.setState({isLoggedIn: AppState.isLoggedIn, user: AppState});
+                //return true;
+            }
+        }
+        //document.location.href='/';
     }
 
     async componentDidMount(){

@@ -20,8 +20,8 @@ class App extends React.Component {
             <Route exact path="/" component={Home} />
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
-            <Route path="/user" component={UserList} />
-            <Route path="/useredit/:id?" component={UserCreate} />
+            <PrivateRoute path="/users" component={UserList} />
+            <PrivateRoute path="/useredit/:id?" component={UserCreate} />
         </BrowserRouter>
         )
     }

@@ -79,7 +79,6 @@ export default class UserCreate extends Component {
         
         e.preventDefault();
 
-
         const user = {
             firstname: this.state.firstname,
             lastname: this.state.lastname,
@@ -96,7 +95,7 @@ export default class UserCreate extends Component {
             
             await axios.put(uri, user).then((response) => {
                 //browserHistory.push('/user');
-                that.props.history.push('/');
+                that.props.history.push('/users');
             }).catch(function(error){
 
                 console.dir(error);
@@ -114,7 +113,7 @@ export default class UserCreate extends Component {
             
             await axios.post(uri, user).then((response) => {
                 //browserHistory.push('/user');
-                that.props.history.push('/user');
+                that.props.history.push('/users');
             }).catch(function(errors){
 
                 error = that.formatErrors(errors);

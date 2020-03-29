@@ -1,21 +1,33 @@
 import React from 'react';
 import {Redirect, Route, withRouter} from 'react-router-dom';
+import MyGlobleSetting from './components/MyGlobleSetting';
+import MyStorage from './components/MyStorage';
+
+
 // 3.1
-let state_of_state = localStorage["appState"];
-if (!state_of_state){
+let ls = MyGlobleSetting.ls_name;
+let AppStateStorage = MyStorage.get(ls);
+
+if (!AppStateStorage){
   let appState = {
     isLoggedIn: false,
     user: {}
   };
-  localStorage["appState"] = JSON.stringify(appState);
+  
+  //localStorage[ls] = JSON.stringify(appState);
+  AppStateStorage.set(ls, appState);
 }
-let state = localStorage["appState"];
-let AppState = JSON.parse(state);
+
+// let state = localStorage[ls];
+// let AppState = JSON.parse(state);
+let AppState = AppStateStorage.get(ls);
+
 // 3.2
 const Auth = {
   isLoggedIn: AppState.isLoggedIn,
   user: AppState
 };
+
 // 3.3
 const PrivateRoute = ({ component: Component, path, ...rest }) => (
 <Route path={path}
