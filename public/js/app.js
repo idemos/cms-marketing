@@ -75723,20 +75723,22 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
  // 3.1
 
 var ls = _components_MyGlobleSetting__WEBPACK_IMPORTED_MODULE_2__["default"].ls_name;
-var AppStateStorage = _components_MyStorage__WEBPACK_IMPORTED_MODULE_3__["default"].get(ls);
+var AppState = _components_MyStorage__WEBPACK_IMPORTED_MODULE_3__["default"].get(ls);
+console.log('appstate', AppState);
 
-if (!AppStateStorage) {
-  var appState = {
+if (!AppState) {
+  AppState = {
     isLoggedIn: false,
     user: {}
   }; //localStorage[ls] = JSON.stringify(appState);
 
-  AppStateStorage.set(ls, appState);
+  _components_MyStorage__WEBPACK_IMPORTED_MODULE_3__["default"].set(ls, AppState);
 } // let state = localStorage[ls];
 // let AppState = JSON.parse(state);
 
 
-var AppState = AppStateStorage.get(ls); // 3.2
+AppState = _components_MyStorage__WEBPACK_IMPORTED_MODULE_3__["default"].get(ls);
+console.log('appstate', AppState); // 3.2
 
 var Auth = {
   isLoggedIn: AppState.isLoggedIn,
@@ -76183,10 +76185,9 @@ var MyStorage = /*#__PURE__*/function () {
     this.compress = compress;
     this.type = type;
 
-    if (normal === true) {
-      this.ls = LocalStorage;
+    if (normal === true) {//this.ls = LocalStorage;
     } else {
-      this.ls = new SecureLS({
+      this.ls = new secure_ls__WEBPACK_IMPORTED_MODULE_0__({
         encodingType: type,
         isCompression: compress
       });
@@ -76198,7 +76199,12 @@ var MyStorage = /*#__PURE__*/function () {
     key: "set",
     value: function set(key, value) {
       if (this.normal === true) {
-        this.ls[key] = JSON.stringify(value);
+        //localStorage.setItem(key, JSON.stringify(value));
+        try {
+          localStorage[key] = JSON.stringify(value);
+        } catch (error) {
+          console.error('catch', error);
+        }
       } else {
         this.ls.set(key, value);
       }
@@ -76207,7 +76213,8 @@ var MyStorage = /*#__PURE__*/function () {
     key: "get",
     value: function get(key) {
       if (this.normal === true) {
-        return JSON.parse(this.ls[key]);
+        //return JSON.parse(localStorage.getItem(key));
+        return JSON.parse(localStorage[key]);
       } else {
         this.ls.get(key);
       }
@@ -76217,7 +76224,7 @@ var MyStorage = /*#__PURE__*/function () {
   return MyStorage;
 }();
 
-/* harmony default export */ __webpack_exports__["default"] = (new MyStorage(false, true, 'Base64'));
+/* harmony default export */ __webpack_exports__["default"] = (new MyStorage(true, true, 'Base64'));
 
 /***/ }),
 
@@ -76975,6 +76982,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_flash_message__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_flash_message__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _components_MyGlobleSetting__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/MyGlobleSetting */ "./resources/js/components/MyGlobleSetting.js");
 /* harmony import */ var _components_MyStorage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../components/MyStorage */ "./resources/js/components/MyStorage.js");
+/* harmony import */ var secure_ls__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! secure-ls */ "./node_modules/secure-ls/dist/secure-ls.js");
+/* harmony import */ var secure_ls__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(secure_ls__WEBPACK_IMPORTED_MODULE_5__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -76998,6 +77007,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -77055,17 +77065,12 @@ var LoginContainer = /*#__PURE__*/function (_Component) {
             isLoggedIn: true,
             user: _userData
           }; //localStorage["appState"] = JSON.stringify(appState);
+          //console.table(appState);
+          //console.error(MyGlobleSetting.ls_name);
 
-          _components_MyStorage__WEBPACK_IMPORTED_MODULE_4__["default"].set[(_components_MyGlobleSetting__WEBPACK_IMPORTED_MODULE_3__["default"].ls_name, appState)];
+          _components_MyStorage__WEBPACK_IMPORTED_MODULE_4__["default"].set(_components_MyGlobleSetting__WEBPACK_IMPORTED_MODULE_3__["default"].ls_name, appState); //document.location.reload();
 
-          _this.setState({
-            isLoggedIn: appState.isLoggedIn,
-            user: appState.user,
-            error: ''
-          }); //document.location.reload();
-
-
-          that.props.history.push('/user');
+          that.props.history.push('/users');
         } else {
           alert("Our System Failed To Register Your Account!");
         }

@@ -4,6 +4,7 @@ import FlashMessage from 'react-flash-message';
 
 import MyGlobleSetting from '../../components/MyGlobleSetting';
 import MyStorage from '../../components/MyStorage';
+import SecureLs from 'secure-ls';
 
 class LoginContainer extends Component {
 
@@ -19,7 +20,6 @@ class LoginContainer extends Component {
   };
 
   componentWillMount() {
-  
     /*
     let state = MyStorage[MyGlobleSetting.ls_name];
     if (state) {
@@ -70,17 +70,12 @@ class LoginContainer extends Component {
         };
          
         //localStorage["appState"] = JSON.stringify(appState);
-        MyStorage.set[MyGlobleSetting.ls_name, appState];
-
-         
-        this.setState({
-            isLoggedIn: appState.isLoggedIn,
-            user: appState.user,
-            error: ''
-        });
+        //console.table(appState);
+        //console.error(MyGlobleSetting.ls_name);
+        MyStorage.set(MyGlobleSetting.ls_name, appState);
       
         //document.location.reload();
-        that.props.history.push('/user');
+        that.props.history.push('/users');
       
       } else {
         alert(`Our System Failed To Register Your Account!`);
