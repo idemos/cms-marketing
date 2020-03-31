@@ -17,9 +17,9 @@ class App extends React.Component {
     render() {
         return(
         <BrowserRouter>
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" component={Login} />
             <Route path="/login" component={Login} />
-            <Route path="/register" component={Register} />
+            <Route path="/register" component={UserCreate} />
             <PrivateRoute path="/users" component={UserList} />
             <PrivateRoute path="/useredit/:id?" component={UserCreate} />
         </BrowserRouter>

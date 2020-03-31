@@ -9,9 +9,9 @@ import MyStorage from './components/MyStorage';
 var ls = MyGlobleSetting.ls_name;
 var AppState = MyStorage.get(ls);
 
-console.log('appstate',AppState);
+console.log('appstate', AppState);
 
-if (!AppState){
+if (typeof AppState === 'undefined' || !AppState){
   AppState = {
     isLoggedIn: false,
     user: {}

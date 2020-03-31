@@ -75726,7 +75726,7 @@ var ls = _components_MyGlobleSetting__WEBPACK_IMPORTED_MODULE_2__["default"].ls_
 var AppState = _components_MyStorage__WEBPACK_IMPORTED_MODULE_3__["default"].get(ls);
 console.log('appstate', AppState);
 
-if (!AppState) {
+if (typeof AppState === 'undefined' || !AppState) {
   AppState = {
     isLoggedIn: false,
     user: {}
@@ -75832,13 +75832,13 @@ var App = /*#__PURE__*/function (_React$Component) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["BrowserRouter"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
         exact: true,
         path: "/",
-        component: _components_Home_Home__WEBPACK_IMPORTED_MODULE_2__["default"]
+        component: _views_Login_Login__WEBPACK_IMPORTED_MODULE_3__["default"]
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
         path: "/login",
         component: _views_Login_Login__WEBPACK_IMPORTED_MODULE_3__["default"]
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
         path: "/register",
-        component: _views_Register_Register__WEBPACK_IMPORTED_MODULE_4__["default"]
+        component: _components_User_Create__WEBPACK_IMPORTED_MODULE_6__["default"]
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_PrivateRoute__WEBPACK_IMPORTED_MODULE_7__["default"], {
         path: "/users",
         component: _components_User_List__WEBPACK_IMPORTED_MODULE_5__["default"]
@@ -76199,9 +76199,8 @@ var MyStorage = /*#__PURE__*/function () {
     key: "set",
     value: function set(key, value) {
       if (this.normal === true) {
-        //localStorage.setItem(key, JSON.stringify(value));
         try {
-          localStorage[key] = JSON.stringify(value);
+          localStorage.setItem(key, JSON.stringify(value)); //localStorage[key] = JSON.stringify(value);
         } catch (error) {
           console.error('catch', error);
         }
@@ -76213,10 +76212,9 @@ var MyStorage = /*#__PURE__*/function () {
     key: "get",
     value: function get(key) {
       if (this.normal === true) {
-        //return JSON.parse(localStorage.getItem(key));
-        return JSON.parse(localStorage[key]);
+        return JSON.parse(localStorage.getItem(key)); //return (localStorage[key]!=''? JSON.parse(localStorage[key]) : '');
       } else {
-        this.ls.get(key);
+        return this.ls.get(key);
       }
     }
   }]);
@@ -76224,7 +76222,7 @@ var MyStorage = /*#__PURE__*/function () {
   return MyStorage;
 }();
 
-/* harmony default export */ __webpack_exports__["default"] = (new MyStorage(true, true, 'Base64'));
+/* harmony default export */ __webpack_exports__["default"] = (new MyStorage(false, false, 'Base64'));
 
 /***/ }),
 
@@ -76349,7 +76347,7 @@ var UserCreate = /*#__PURE__*/function (_Component) {
   }, {
     key: "backHistory",
     value: function backHistory(e) {
-      this.props.history.push('/user');
+      this.props.history.push('/users');
     }
   }, {
     key: "formatErrors",
@@ -76931,7 +76929,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
- //import SecureLs from 'secure-ls';
+
 
 var Login = /*#__PURE__*/function (_Component) {
   _inherits(Login, _Component);
@@ -77161,7 +77159,7 @@ var LoginContainer = /*#__PURE__*/function (_Component) {
       //const { state = {} } = this.state.redirect;
       var error = this.state.error;
 
-      if (this.state.isLoggedIn) {
+      if (this.state.isLoggedIn === true) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Redirect"], {
           to: "/users"
         });

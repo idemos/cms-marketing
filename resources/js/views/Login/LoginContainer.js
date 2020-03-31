@@ -86,56 +86,56 @@ class LoginContainer extends Component {
       that.setError(error);
 
     }).finally(this.setState({error: ''}));
-}
-
-setError = (error) => {
-  if (error.response) {
-    // The request was made and the server responded with a status code that falls out of the range of 2xx
-    let err = error.response.data;
-    
-    this.setState({
-      error: err.message,
-      errorMessage: err.errors,
-      formSubmitting: false
-    });
-  
-  } else if (error.request) {
-    // The request was made but no response was received `error.request` is an instance of XMLHttpRequest in the browser and an instance of http.ClientRequest in node.js
-    let err = error.request;
-    
-    this.setState({
-      error: err,
-      formSubmitting: false
-    });
-
-  } else {
-   // Something happened in setting up the request that triggered an Error
-   let err = error.message;
-   
-   this.setState({
-     error: err,
-     formSubmitting: false
-   });
-
   }
-}
 
-handleChange = (e) => {
-  e.persist();
-  console.log(e.target.name);
-  this.setState(prevState => ({
-    user: {
-      ...prevState.user, [e.target.name]: e.target.value
+  setError = (error) => {
+    if (error.response) {
+      // The request was made and the server responded with a status code that falls out of the range of 2xx
+      let err = error.response.data;
+      
+      this.setState({
+        error: err.message,
+        errorMessage: err.errors,
+        formSubmitting: false
+      });
+    
+    } else if (error.request) {
+      // The request was made but no response was received `error.request` is an instance of XMLHttpRequest in the browser and an instance of http.ClientRequest in node.js
+      let err = error.request;
+      
+      this.setState({
+        error: err,
+        formSubmitting: false
+      });
+
+    } else {
+     // Something happened in setting up the request that triggered an Error
+     let err = error.message;
+     
+     this.setState({
+       error: err,
+       formSubmitting: false
+     });
+
     }
-  }));
-}
+  }
+
+  handleChange = (e) => {
+    e.persist();
+    console.log(e.target.name);
+    this.setState(prevState => ({
+      user: {
+        ...prevState.user, [e.target.name]: e.target.value
+      }
+    }));
+  }
 
 
 render() {
   //const { state = {} } = this.state.redirect;
   const { error } = this.state;
 
-  if (this.state.isLoggedIn) {
+  if (this.state.isLoggedIn === true) {
     return <Redirect to="/users" />;
   }
 

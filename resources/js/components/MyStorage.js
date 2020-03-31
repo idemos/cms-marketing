@@ -19,9 +19,9 @@ class MyStorage {
     set(key,value){
     	
     	if(this.normal === true){
-			//localStorage.setItem(key, JSON.stringify(value));
 			try{
-				localStorage[key] = JSON.stringify(value);
+				localStorage.setItem(key, JSON.stringify(value));
+				//localStorage[key] = JSON.stringify(value);
 			}catch(error){
 				console.error('catch',error);
 			}
@@ -33,13 +33,14 @@ class MyStorage {
     get(key){
 
     	if(this.normal === true){
-			//return JSON.parse(localStorage.getItem(key));
-			return JSON.parse(localStorage[key]);
+			return JSON.parse(localStorage.getItem(key));
+
+			//return (localStorage[key]!=''? JSON.parse(localStorage[key]) : '');
     	}else{
-			this.ls.get(key);
+			return this.ls.get(key);
     	}
     }
 
 }
 
-export default (new MyStorage(true, true, 'Base64'));
+export default (new MyStorage(false, false, 'Base64'));

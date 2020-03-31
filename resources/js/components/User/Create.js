@@ -60,7 +60,7 @@ export default class UserCreate extends Component {
     }
 
     backHistory(e){
-        this.props.history.push('/user');
+        this.props.history.push('/users');
     }
 
     formatErrors(errors){
