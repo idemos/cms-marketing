@@ -4,7 +4,7 @@ import MyGlobleSetting from '../MyGlobleSetting';
 import Navbar from '../Navbar';
 
 
-export default class UserCreate extends Component {
+export default class CustomerCreate extends Component {
 
     state = {
         error: '',
@@ -104,7 +104,7 @@ export default class UserCreate extends Component {
     }
 
     backHistory(e){
-        this.props.history.push('/users');
+        this.props.history.push('/customers');
     }
 
     formatErrors(errors){
@@ -123,7 +123,7 @@ export default class UserCreate extends Component {
         
         e.preventDefault();
 
-        const user = {
+        const customer = {
             firstname: this.state.firstname,
             lastname: this.state.lastname,
             phone: this.state.phone,
@@ -136,11 +136,11 @@ export default class UserCreate extends Component {
         const { id } = this.props.match.params; // or this.props.params.id
 
         if(typeof id !== "undefined"){
-            let uri = MyGlobleSetting.url + '/api/auth/user/' + id;
+            let uri = MyGlobleSetting.url + '/api/auth/customer/' + id;
             
-            await axios.put(uri, user).then((response) => {
-                //browserHistory.push('/user');
-                that.props.history.push('/users');
+            await axios.put(uri, customer).then((response) => {
+                //browserHistory.push('/customer');
+                that.props.history.push('/customers');
             }).catch(function(error){
 
                 console.dir(error);
@@ -153,12 +153,12 @@ export default class UserCreate extends Component {
 
         }else{
             // console.log(this.props.match.params);
-            console.log(user);
-            let uri = MyGlobleSetting.url + '/api/auth/user';
+            console.log(customer);
+            let uri = MyGlobleSetting.url + '/api/auth/customer';
             
-            await axios.post(uri, user).then((response) => {
-                //browserHistory.push('/user');
-                that.props.history.push('/users');
+            await axios.post(uri, customer).then((response) => {
+                //browserHistory.push('/customer');
+                that.props.history.push('/customers');
             }).catch(function(errors){
 
                 error = that.formatErrors(errors);
@@ -178,9 +178,9 @@ export default class UserCreate extends Component {
         const { id } = this.props.match.params; // or this.props.params.id
         console.log('id => ', this.props.match.params);
 
-        var param = '/user';
+        var param = '/customer';
         if(typeof id !== "undefined"){
-            param = '/user/' + id + '/edit';
+            param = '/customer/' + id + '/edit';
         }else{
             
             this.setState({
@@ -197,7 +197,7 @@ export default class UserCreate extends Component {
 
             this.setState({ 
                 loading:false,
-                // user: response.data,
+                // customer: response.data,
                 id: response.data.id, 
                 firstname: response.data.firstname, 
                 lastname: response.data.lastname,
@@ -256,80 +256,67 @@ export default class UserCreate extends Component {
             <div>
                 <Navbar />
                 <div className="container" style={{marginTop:10}}>
-                <h2>Create/Edit User</h2>
-                { error ? <h5 className="alert alert-danger">{error}</h5> : '' }
-                <form onSubmit={(e) => this.handleSubmit(e)}>
-                    <div className="row">
-                        <div className="col-md-12">
-                          <div className="form-group">
-                            <label>Nome:</label>
-                            <input type="text" value={firstname} name="firstname" id="firstname" className="form-control" onChange={(e) => this.handleChange(e)} />
-                          </div>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-md-12">
-                            <div className="form-group">
-                              <label>Cognome:</label>
-                              <input type="text" value={this.state.lastname} name="lastname" id="lastname" className="form-control" onChange={(e) => this.handleChange(e)} />
+                    <h2>Create/Edit customer</h2>
+                    { error ? <h5 className="alert alert-danger">{error}</h5> : '' }
+                    <form onSubmit={(e) => this.handleSubmit(e)}>
+                        <div className="row">
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <label>Nome:</label>
+                                <input type="text" value={firstname} name="firstname" id="firstname" className="form-control" onChange={(e) => this.handleChange(e)} />
+                              </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-md-12">
-                            <div className="form-group">
-                              <label>Email:</label>
-                              <input type="email" value={email??''} name="email" id="email" className="form-control" onChange={(e) => this.handleChange(e)} />
+                        <div className="row">
+                            <div className="col-md-12">
+                                <div className="form-group">
+                                  <label>Cognome:</label>
+                                  <input type="text" value={this.state.lastname} name="lastname" id="lastname" className="form-control" onChange={(e) => this.handleChange(e)} />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-md-12">
-                            <div className="form-group">
-                              <label>Telefono:</label>
-                              <input type="tel" value={phone??''} name="phone" id="phone" className="form-control" onChange={(e) => this.handleChange(e)} />
+                        <div className="row">
+                            <div className="col-md-12">
+                                <div className="form-group">
+                                  <label>Email:</label>
+                                  <input type="email" value={email??''} name="email" id="email" className="form-control" onChange={(e) => this.handleChange(e)} />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-md-12">
-                            <div className="form-group">
-                                <label>Foto:</label>
-                                <input type="file" name="photo" id="photo" className="form-control"  accept="image/*;capture=camera" onChange={(e) => this.handleChange(e)} />
-                                {/*
-                                <ImageUploader
-                                name="photo"
-                                fileSizeError=" file size is too big"
-                                fileTypeError=" is not supported file extension"
-                                    singleImage={true}
-                                    withIcon={true}
-                                    buttonText='Choose images'
-                                    onChange={(e) => this.handleChange(e)}
-                                    imgExtension={['.jpg', '.gif', '.png', '.gif']}
-                                    maxFileSize={5242880}
-                                />
-                                */}
+                        <div className="row">
+                            <div className="col-md-12">
+                                <div className="form-group">
+                                  <label>Telefono:</label>
+                                  <input type="tel" value={phone??''} name="phone" id="phone" className="form-control" onChange={(e) => this.handleChange(e)} />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-md-12">
-                            <div className="form-group">
-                              <label>Attivo:</label>
-                              <input type="checkbox" checked={actived} name="active" id="active" onChange={(e) => this.handleChange(e)} />
+                        <div className="row">
+                            <div className="col-md-12">
+                                <div className="form-group">
+                                    <label>Foto:</label>
+                                    <input type="file" name="photo" id="photo" className="form-control"  accept="image/*;capture=camera" onChange={(e) => this.handleChange(e)} />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-md-6">
-                            <div className="form-group">
-                                <button className="btn btn-primary">Save User</button>&nbsp;
-                                <button type="button" className="btn btn-success" onClick={(e) => this.backHistory(e)}>Back</button>
+                        <div className="row">
+                            <div className="col-md-12">
+                                <div className="form-group">
+                                  <label>Attivo:</label>
+                                  <input type="checkbox" checked={actived} name="active" id="active" onChange={(e) => this.handleChange(e)} />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </form>
-            </div>
+                        <div className="row">
+                            <div className="col-md-6">
+                                <div className="form-group">
+                                    <button className="btn btn-primary">Save customer</button>&nbsp;
+                                    <button type="button" className="btn btn-success" onClick={(e) => this.backHistory(e)}>Back</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         )
     }

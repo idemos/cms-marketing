@@ -41,6 +41,14 @@ class MyStorage {
     	}
     }
 
+	unset(key){
+
+		if(this.normal === true){
+	    	localStorage.removeItem(key);
+	    }else{
+			this.ls.removeAll();
+    	}
+	}
 }
 
 export default (new MyStorage(false, false, 'Base64'));

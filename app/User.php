@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'firstname', 'lastname', 'phone','active'
+        'name', 'email', 'password', 'firstname', 'lastname', 'phone','photo','active'
     ];
 
     /**
@@ -40,5 +40,20 @@ class User extends Authenticatable
 
     function setPasswordAttribute($password){
         $this->attributes['password'] = bcrypt($password);
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('active', 1);
+    }
+
+    public function scopeAdmin($query)
+    {
+        return $query->where('admin', 1);
+    }
+
+    public function scopeCustomer($query)
+    {
+        return $query->where('admin', 0);
     }
 }

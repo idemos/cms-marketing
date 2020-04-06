@@ -68,8 +68,8 @@
         </style>
     </head>
     <body>
-        <div class="container">
-            <div id="index"></div>
+        <div class="wrapper">
+            <div id="index" class="container-fluid"></div>
         </div>
         <script src="{{ asset('js/app.js') }}"></script>
     </body>

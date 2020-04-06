@@ -5,16 +5,9 @@ import axios from 'axios';
 import MyStorage from '../MyStorage';
 import MyGlobleSetting from '../MyGlobleSetting';
 import Navbar from '../Navbar';
-import TitleCard from '../TitleCard';
 
+export default class CustomerList extends Component {
 
-export default class UserList extends Component {
-/*
-    constructor(props) {
-        super(props);
-        this.checkUserLogged();
-    }
-*/
     state = {value: '', users: ''};
 
     componentWillMount(){
@@ -29,7 +22,7 @@ export default class UserList extends Component {
         if (AppState) {
             // let AppState = JSON.parse(state);
             if(AppState.isLoggedIn === true){
-                this.setState({isLoggedIn: AppState.isLoggedIn, user: AppState});
+                this.setState({isLoggedIn: AppState.isLoggedIn, customer: AppState});
                 //return true;
             }
         }
@@ -43,10 +36,10 @@ export default class UserList extends Component {
 
     async fetchData(){
 
-        await axios.get(MyGlobleSetting.url + '/api/auth/user')
+        await axios.get(MyGlobleSetting.url + '/api/auth/customer')
         .then(response => {
             //console.dir(response.data);
-            this.setState({ users: response.data });
+            this.setState({ customers: response.data });
         })
         .catch(function (error) {
             console.log(error);
@@ -59,10 +52,10 @@ export default class UserList extends Component {
         //console.log(obj.id);
         var that = this;
 
-        await axios.delete(MyGlobleSetting.url + `/api/auth/user/${obj.id}`)
+        await axios.delete(MyGlobleSetting.url + `/api/auth/customer/${obj.id}`)
         .then(response => {
-            //this.setState({ users: response.data });
-            //this.props.history.push('/user');
+            //this.setState({ customers: response.data });
+            //this.props.history.push('/customer');
             that.fetchData();
         })
         .catch(function (error) {
@@ -73,16 +66,14 @@ export default class UserList extends Component {
     }
 
     logout(e){
-
         let ls = MyGlobleSetting.ls_name;
         MyStorage.unset(ls);
         window.location.href="/login";
-
     }
 
     tabRow(){
-        if(this.state.users instanceof Array){
-            return this.state.users.map((obj, i) => {
+        if(this.state.customers instanceof Array){
+            return this.state.customers.map((obj, i) => {
                 //console.dir(obj);
                 
                 return (<tr key={obj.id}>
@@ -92,7 +83,7 @@ export default class UserList extends Component {
                         <td>{obj.phone}</td>
                         <td>{obj.email}</td>
                         <td>
-                            <Link to={"useredit/" + obj.id} className="btn btn-primary btn-edit"> Edit </Link>&nbsp;
+                            <Link to={"customeredit/" + obj.id} className="btn btn-primary btn-edit"> Edit </Link>&nbsp;
                             <button type="button" className="btn btn-danger btn-delete" 
                             onClick={(e) => {if(window.confirm('Are you sure you wish to delete this item?')) this.handleClickDelete(e, obj)}} > Delete </button>
                         </td>
@@ -115,7 +106,7 @@ export default class UserList extends Component {
                     <div className="row">
                         <div className="col-md-9"><h1>Utenti</h1></div>
                         <div className="col-md-3">
-                            <Link to="/useredit" className="btn btn-warning">Create User</Link>
+                            <Link to="/customeredit" className="btn btn-warning">Create Customer</Link>
                         </div>
                     </div>
                     <table className="table table-hover">

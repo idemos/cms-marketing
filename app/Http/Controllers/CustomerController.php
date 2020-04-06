@@ -7,7 +7,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class UserController extends Controller
+class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +17,7 @@ class UserController extends Controller
     public function index()
     {
         //$user = User::all();
-        $user = User::orderBy('id','desc')->get();
+        $user = User::customer()->orderBy('id','desc')->get();
         // return response()->json('User: Successfully.');
         return $user;
     }
@@ -110,7 +110,7 @@ class UserController extends Controller
         }
 
         // dd($request_field);
-        $user_result = User::find($user['id'])->admin()->update(request()->all());
+        $user_result = User::find($user['id'])->customer()->update(request()->all());
         //dd($user);
         
         return response()->json(array(

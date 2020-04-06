@@ -19,6 +19,7 @@ class LoginContainer extends Component {
       //redirect: props.redirect,
   };
 
+
   componentWillMount() {
     /*
     let state = MyStorage[MyGlobleSetting.ls_name];
@@ -73,9 +74,12 @@ class LoginContainer extends Component {
         //console.table(appState);
         //console.error(MyGlobleSetting.ls_name);
         MyStorage.set(MyGlobleSetting.ls_name, appState);
+
+
       
-        //document.location.reload();
-        that.props.history.push('/users');
+        //history.push("/users");
+        window.location.href = '/users';
+        //that.props.history.push('/users');
       
       } else {
         alert(`Our System Failed To Register Your Account!`);
@@ -134,11 +138,11 @@ class LoginContainer extends Component {
 render() {
   //const { state = {} } = this.state.redirect;
   const { error } = this.state;
-
+/*
   if (this.state.isLoggedIn === true) {
     return <Redirect to="/users" />;
   }
-
+*/
   return (
     <div className="container">
       <div className="row">
